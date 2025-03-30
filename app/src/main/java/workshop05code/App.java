@@ -88,6 +88,7 @@ public class App {
 
                 if (wordleDatabaseConnection.isValidWord(guess)) { 
                     //System.out.println("You've guessed '" + guess+"'.");
+                    logger.log(Level.INFO,"Guessed correctly: " + guess);
                     System.out.println("Correct!\n");
                 } else {
                     System.out.println("You've guessed '" + guess+"'.");
