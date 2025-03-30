@@ -38,15 +38,19 @@ public class App {
 
         wordleDatabaseConnection.createNewDatabase("words.db");
         if (wordleDatabaseConnection.checkIfConnectionDefined()) {
-            System.out.println("Wordle created and connected.");
+            logger.log(Level.INFO,"Wordle created and connected.\n");
+            //System.out.println("Wordle created and connected.");
         } else {
-            System.out.println("Not able to connect. Sorry!");
+            logger.log(Level.INFO,"Not able to connect. Sorry!\n");
+            //System.out.println("Not able to connect. Sorry!");
             return;
         }
         if (wordleDatabaseConnection.createWordleTables()) {
-            System.out.println("Wordle structures in place.");
+            logger.log(Level.INFO,"Wordle structures in place.\n");
+           // System.out.println("Wordle structures in place.");
         } else {
-            System.out.println("Not able to launch. Sorry!");
+            logger.log(Level.INFO,"Not able to launch. Sorry!\n");
+            //System.out.println("Not able to launch. Sorry!");
             return;
         }
 
@@ -62,8 +66,9 @@ public class App {
             }
 
         } catch (IOException e) {
-            System.out.println("Not able to load . Sorry!");
-            System.out.println(e.getMessage());
+            logger.log(Level.WARNING, "Not able to load", e);
+            System.out.println("Oops! Something went wrong.");
+            //System.out.println(e.getMessage());
             return;
         }
 
@@ -79,18 +84,22 @@ public class App {
             while (!guess.equals("q")) {
                 if (guess.matches("^[a-zA-Z]{4}$")) {
 
-                    System.out.println("You've guessed '" + guess+"'.");
+                   
 
                 if (wordleDatabaseConnection.isValidWord(guess)) { 
-                    System.out.println("Success! It is in the the list.\n");
+                    //System.out.println("You've guessed '" + guess+"'.");
+                    System.out.println("Correct!\n");
                 } else {
-                    System.out.println("Sorry. This word is NOT in the list.\n");
+                    System.out.println("You've guessed '" + guess+"'.");
+                    logger.log(Level.INFO,"Sorry. This word is NOT in the list.\n");
+                    System.out.println("Incorrect.\n");
                 }
 
                     System.out.print("Enter a 4 letter word for a guess or q to quit: " );
                     guess = scanner.nextLine();
 
                 } else {
+                    logger.log(Level.WARNING,"Invalid word guessed but present in the list.\n");
                     System.out.print("Enter a 4 letter word for a guess or q to quit: " );
                     guess = scanner.nextLine();
                 }
@@ -98,7 +107,8 @@ public class App {
                 
             }
         } catch (NoSuchElementException | IllegalStateException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error occured: Unable to load program. ", e);
+            //e.printStackTrace();
         }
 
     }
